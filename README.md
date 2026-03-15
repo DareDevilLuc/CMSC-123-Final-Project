@@ -38,7 +38,7 @@ This project aims to:
 - **C++ Best Practices**: Memory management, templates, and object-oriented design.
 
 ### Development Status
-This is a completed final project for CMSC-123. It includes full implementations and working benchmarks.
+This is a completed final project for CMSC-123. It includes full implementations and working benchmarks. After passing this project for the course. This repository/project may be used to include more data structures outside the scope of the course. 
 
 ## Core Technical Concepts/Inspiration
 
@@ -89,8 +89,9 @@ To run a specific test:
    g++ -O2 -o benchmark .\tests\NAME_OF_THE_FILE
    ```
    Replace `NAME_OF_THE_FILE` with the desired test file (e.g., `arraydeque.cpp`, `meldableheap.cpp`, etc.)
+   Why `-O2`? This is an optimization flag that allows the code to run without the overheads that may skew with the time. It enables various optimizations like inlining small functions,   removing unnecessary code, and optimizing loops, which makes benchmarks and performance tests more realistic compared to unoptimized builds.
 
-3. Run the benchmark:
+4. Run the benchmark:
    ```bash
    .\benchmark.exe
    ```
