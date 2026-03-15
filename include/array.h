@@ -16,8 +16,13 @@ struct array{
         delete[] a;
     }
 
+
     T& operator[](size_t i){
         return a[i];
+    }
+
+    const T& operator[](size_t i) const { 
+        return a[i]; 
     }
 
     array<T>& operator=(array<T> &other){
