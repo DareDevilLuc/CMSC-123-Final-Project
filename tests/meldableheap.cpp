@@ -1,68 +1,70 @@
 #include <iostream>
-#include <chrono>
 #include <vector>
-#include "../src/sllist.h"
+#include <random>
+#include <chrono>
+#include <cmath>
+#include <iomanip>
+#include "../src/meldableheap.h"
 
-// -----------------------------------------------
-
-using Clock = std::chrono::high_resolution_clock;
-
-double ms(std::chrono::nanoseconds ns) {
-    return ns.count() / 1e6;
-}
-
-void print_result(const std::string& label, std::chrono::nanoseconds elapsed, int N) {
-    std::cout << "  " << label
-              << ": " << ms(elapsed) << " ms"
-              << "  (" << N << " ops)\n";
-}
+using namespace std;
+using namespace chrono;
 
 int main() {
-    const int N = 1'000'000;
+    // Heap sizes to test
+    vector<int> heapSizes = {1000, 5000, 10000, 50000, 100000};
+    const int trials = 30;  // number of runs per heap size to average
 
-    std::cout << "=== SLList Benchmark (N = " << N << ") ===\n\n";
+    // Random number generator
+    mt19937 gen(random_device{}());
+    uniform_int_distribution<int> dist(1, 1000000);
 
-    // --- push() benchmark ---
-    {
-        SLList<int> list;
-        auto t0 = Clock::now();
-        for (int i = 0; i < N; i++) list.push(i);
-        auto t1 = Clock::now();
-        print_result("push() x" + std::to_string(N), t1 - t0, N);
-    }
+    // Table header
+    cout << left << setw(10) << "HeapSize"
+         << setw(12) << "log2(N)"
+         << setw(18) << "Avg Insert (us)"
+         << setw(18) << "Avg Delete (us)" << endl;
+    cout << string(58, '-') << endl;
 
-    // --- add() benchmark ---
-    {
-        SLList<int> list;
-        auto t0 = Clock::now();
-        for (int i = 0; i < N; i++) list.add(i);
-        auto t1 = Clock::now();
-        print_result("add()  x" + std::to_string(N), t1 - t0, N);
-    }
+    for(int N : heapSizes) {
+        double totalAvgInsert = 0;
+        double totalAvgDelete = 0;
 
-    // --- pop() benchmark (pre-fill, then time pops) ---
-    {
-        SLList<int> list;
-        for (int i = 0; i < N; i++) list.push(i);
+        for(int t = 0; t < trials; t++) {
+            MeldableHeap<int> minHeap(MIN_HEAP);
 
-        auto t0 = Clock::now();
-        for (int i = 0; i < N; i++) list.pop();
-        auto t1 = Clock::now();
-        print_result("pop()  x" + std::to_string(N), t1 - t0, N);
-    }
+            // Generate random numbers
+            vector<int> numbers(N);
+            for(int i = 0; i < N; i++)
+                numbers[i] = dist(gen);
 
-    // --- mixed: alternating push + pop ---
-    {
-        SLList<int> list;
-        auto t0 = Clock::now();
-        for (int i = 0; i < N; i++) {
-            list.push(i);
-            if (i % 2 == 0) list.pop();
+            // --- Benchmark insertions ---
+            auto start = high_resolution_clock::now();
+            for(int x : numbers)
+                minHeap.insert(x);
+            auto end = high_resolution_clock::now();
+            double avgInsertUS = duration_cast<microseconds>(end - start).count() / double(N);
+            totalAvgInsert += avgInsertUS;
+
+            // --- Benchmark deletions ---
+            start = high_resolution_clock::now();
+            while(!minHeap.isEmpty())
+                minHeap.deleteTop();
+            end = high_resolution_clock::now();
+            double avgDeleteUS = duration_cast<microseconds>(end - start).count() / double(N);
+            totalAvgDelete += avgDeleteUS;
         }
-        auto t1 = Clock::now();
-        print_result("mixed push+pop  x" + std::to_string(N), t1 - t0, N);
+
+        // Compute average over trials
+        double avgInsert = totalAvgInsert / trials;
+        double avgDelete = totalAvgDelete / trials;
+
+        // Print results in readable table
+        cout << left << setw(10) << N
+             << setw(12) << fixed << setprecision(2) << log2(N)
+             << setw(18) << fixed << setprecision(3) << avgInsert
+             << setw(18) << fixed << setprecision(3) << avgDelete
+             << endl;
     }
 
-    std::cout << "\nDone.\n";
     return 0;
 }
