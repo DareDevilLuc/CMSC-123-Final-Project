@@ -12,6 +12,10 @@ class SLList {
 
     public:
 
+        ~SLList(){
+            while (size > 0) pop();
+        }
+
         void push(T x){
             Node<T> *newNode = new Node<T>;
             newNode->value = x;

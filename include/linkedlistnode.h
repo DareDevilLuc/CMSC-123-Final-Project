@@ -2,6 +2,6 @@
 
 template <typename T>
 struct Node{
-    T value = nullptr;
+    T value;
     Node *next = nullptr;
 };
