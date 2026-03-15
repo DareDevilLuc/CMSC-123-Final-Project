@@ -165,13 +165,10 @@ ListSize  Avg Push (us)     Avg Add (us)      Avg Pop (us)
 
 ### Next Steps
 - Add more data structure implementations
-- Implement additional benchmark metrics
-- Create visualization tools for performance data
+
 
 ### Features Planned
-- Graph algorithms implementation
-- Memory usage tracking in benchmarks
-- Cross-platform compatibility improvements
+- None as of yet
 
 ### Known Bugs
 - None currently identified
