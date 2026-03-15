@@ -7,19 +7,27 @@
 
 using namespace std;
 
+enum HeapType {
+    MIN_HEAP = 0,
+    MAX_HEAP = 1
+};
+
 template <typename T>
 class MeldableHeap : public PriorityQueue<T>{
     private:
         Node<T> *root = nullptr;
         int size = 0;
+        HeapType heap_type;
 
         Node<T> *meld(Node<T> *h1, Node<T> *h2){
             if(h1 == nullptr) return h2;
             if(h2 == nullptr) return h1;
 
-            if(h1->value > h2->value) return meld(h2, h1);
+            if(compare(h1->value, h2->value)) return meld(h2, h1);
 
-            if(rand() % 2){
+            static mt19937 gen(random_device{}());
+
+            if(gen() & 1){
                 h1->left = meld(h1->left, h2);
                 if(h1->left != nullptr) h1->left->parent = h1;
             }
@@ -32,7 +40,14 @@ class MeldableHeap : public PriorityQueue<T>{
 
         };
 
+        bool compare(T x, T y){
+            if(heap_type == MIN_HEAP) return x > y;
+            else return x < y;
+        };
+
     public:
+
+        MeldableHeap(HeapType t) : heap_type(t) {}
 
         void insert(T x){
             Node<T> *newNode = new Node<T>(x);
@@ -42,17 +57,17 @@ class MeldableHeap : public PriorityQueue<T>{
             size++;
         }
 
-        T findMin(){
+        T findTop(){
             return root->value;
         }
 
-        T deleteMin(){
+        T deleteTop(){
             T x = root->value;
             Node<T> *tmp = root;
             root = meld(root->left, root->right);
 
             delete tmp;
-            if(root != nullptr) root->parent == nullptr;
+            if(root != nullptr) root->parent = nullptr;
             size--;
 
             return x;
@@ -87,4 +102,5 @@ class MeldableHeap : public PriorityQueue<T>{
             }
             printHeap("", root, false);
         }
+        
 };
