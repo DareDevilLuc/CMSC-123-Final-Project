@@ -25,9 +25,8 @@ class MeldableHeap : public PriorityQueue<T>{
 
             if(compare(h1->value, h2->value)) return meld(h2, h1);
 
-            static mt19937 gen(random_device{}());
 
-            if(gen() & 1){
+            if(rand() % 2){
                 h1->left = meld(h1->left, h2);
                 if(h1->left != nullptr) h1->left->parent = h1;
             }
@@ -45,9 +44,21 @@ class MeldableHeap : public PriorityQueue<T>{
             else return x < y;
         };
 
+        void clear(Node<T> *node){
+            if(node == nullptr) return;
+
+            clear(node->left);
+            clear(node->right);
+            delete node;
+        }
+
     public:
 
         MeldableHeap(HeapType t) : heap_type(t) {}
+
+        ~MeldableHeap(){
+            clear(root);
+        }
 
         void insert(T x){
             Node<T> *newNode = new Node<T>(x);
