@@ -71,5 +71,31 @@ class SLList {
             return;
         }
 
+        void remove(T x){
+            if(size == 0){
+                return;
+            }
+
+            Node<T> *current = head;
+            if(current->value == x){
+                pop();
+                return;
+            }
+
+            while(current->next != nullptr){
+                if(current->next->value == x){
+                    Node<T> *toRemove = current->next;
+                    current->next = current->next->next;
+                    if(toRemove == tail){
+                        tail = current;
+                    }
+                    delete toRemove;
+                    size--;
+                    return;
+                }
+                current = current->next;
+            }
+            return;
+        }
 };
 

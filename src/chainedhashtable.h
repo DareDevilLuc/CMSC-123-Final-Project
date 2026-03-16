@@ -9,12 +9,13 @@ template <typename T>
 class ChainedHashTable {
     private:
         array<SLList<T>> table;
-        int numOfElements;
+        int numOfElements = 0;
 
         int computeHashIndex(T x){
-            return std::hash<T>{}(x) % numOfElements;
+            return std::hash<T>{}(x) % table.length;
         }
 
     public:
-        ChainedHashTable(int i) : numOfElements(i) {}
+        
+        ChainedHashTable(int i) : table(i) {}
 };
