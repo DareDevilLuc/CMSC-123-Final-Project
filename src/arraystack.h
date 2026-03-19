@@ -14,7 +14,7 @@ class ArrayStack : public Stack<T>, public List<T>{
         int n;
 
     void resize(){
-        array<T> b(max(2 * this->n, 1));
+        array<T> b(std::max(2 * this->n, 1));
         for(int i = 0; i < this->n; i++){
             b[i] = this->backingArray[i];
         }
@@ -25,21 +25,19 @@ class ArrayStack : public Stack<T>, public List<T>{
 
     ArrayStack() : backingArray(10), n(0){}
 
-    ~ArrayStack(){
-        delete[] this->backingArray.a;
-    }
+    ~ArrayStack(){}
 
     size_t size() const override{
         return this->n;
     }
 
     void add(const size_t i, const T& x) override{
-        assert(i >= 0 && i < this->n)
+        assert(i >= 0 && i <= this->n);
         if(this->n >= this->backingArray.length){
             resize();
         }
 
-        for(int j = this->n; j >= i; j--){
+        for(int j = this->n; j > i; j--){
             this->backingArray[j] = this ->backingArray[j-1];
 
         }
@@ -84,7 +82,7 @@ class ArrayStack : public Stack<T>, public List<T>{
     }
 
     T pop() override{
-        assert(i >=0 && i < this->n);
+        assert(n > 0);
         n--;
         T result = this->backingArray[n];
         this->backingArray[n] = T{};             
@@ -95,6 +93,7 @@ class ArrayStack : public Stack<T>, public List<T>{
     }
 
     T top() const override{
+        assert(n > 0);
         return this->backingArray[this->n - 1];
     }
 };
