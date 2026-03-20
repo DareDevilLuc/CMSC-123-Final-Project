@@ -14,15 +14,15 @@ int main() {
 
     cout << left << setw(12) << "TableSize"
          << setw(20) << "Avg Insert (us)"
-         << setw(20) << "Avg Find (us)"
+         << setw(20) << "Avg isPresent (us)"
          << setw(20) << "Avg Remove (us)" << endl;
 
     cout << string(72, '-') << endl;
 
     for (int n : sizes) {
-        double avgInsert, avgFind, avgRemove;
+        double avgInsert, avgIsPresent, avgRemove;
 
-        // Choose table size ~ n for reasonable load factor
+        // Table size ~ n for low load factor
         int tableSize = n;
 
         // --- Benchmark insert ---
@@ -38,18 +38,18 @@ int main() {
             avgInsert = duration_cast<microseconds>(end - start).count() / double(n);
         }
 
-        // --- Benchmark find ---
+        // --- Benchmark isPresent ---
         {
             ChainedHashTable<int> ht(tableSize);
             for (int i = 0; i < n; i++) ht.insert(i);
 
             auto start = high_resolution_clock::now();
             for (int i = 0; i < n; i++) {
-                ht.insert(i); // triggers find inside insert
+                ht.isPresent(i);
             }
             auto end = high_resolution_clock::now();
 
-            avgFind = duration_cast<microseconds>(end - start).count() / double(n);
+            avgIsPresent = duration_cast<microseconds>(end - start).count() / double(n);
         }
 
         // --- Benchmark remove ---
@@ -62,7 +62,7 @@ int main() {
                 values.push_back(i);
             }
 
-            // Shuffle removal order
+            // Shuffle values to remove in random order
             random_device rd;
             mt19937 g(rd());
             shuffle(values.begin(), values.end(), g);
@@ -78,7 +78,7 @@ int main() {
 
         cout << left << setw(12) << n
              << setw(20) << fixed << setprecision(3) << avgInsert
-             << setw(20) << fixed << setprecision(3) << avgFind
+             << setw(20) << fixed << setprecision(3) << avgIsPresent
              << setw(20) << fixed << setprecision(3) << avgRemove
              << endl;
     }

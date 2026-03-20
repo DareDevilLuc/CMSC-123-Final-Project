@@ -34,11 +34,16 @@ class ChainedHashTable {
         void removeElement(const T &x){
             int index = computeHashIndex(x);
 
-            if(table[index].find(x)){
+            if(!table[index].find(x)){
                 return;
             }
 
             table[index].remove(x);
             numOfElements--;
+        }
+
+        bool isPresent(const T &x){
+            size_t index = computeHashIndex(x);
+            return table[index].find(x);
         }
 };
