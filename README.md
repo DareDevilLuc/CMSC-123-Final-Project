@@ -9,12 +9,12 @@ The project is designed to be educational and practical, offering out-of-the-box
 ### Key Features
 - **Data Structures Implemented**:
   - Arrays
-  - Deques (Array-based and Linked-list based)
+  - Deques (Array-based)
   - Heaps (Meldable Heap)
   - Linked Lists (Singly and Doubly Linked)
   - Priority Queues
-  - Queues
-  - Stacks (Array-based and Linked-list based)
+  - Queue (Link-list based)
+  - Stack (Array-based)
   - Sets (Sorted and Unsorted)
   - Hash Tables (Chained)
   - Red-Black Trees
@@ -131,7 +131,7 @@ HeapSize  log2(N)     Avg Insert (us)   Avg Delete (us)
 100000    16.61       0.248             0.492
 ```
 
-#### SLLList Performance
+#### SLList Performance
 ```
 SLListSize  Avg Push (us)     Avg Add (us)      Avg Pop (us)      Avg Remove (us)   
 ----------------------------------------------------------------------------------
@@ -140,6 +140,39 @@ SLListSize  Avg Push (us)     Avg Add (us)      Avg Pop (us)      Avg Remove (us
 10000     0.057             0.037             0.020             9.685
 50000     0.046             0.047             0.031             50.899
 100000    0.040             0.047             0.030             105.135
+```
+
+#### Array Stack Performance
+```
+StackSize   Avg Push (us)       Avg Pop (us)        Avg Add0 (us)       Avg Remove0 (us)    
+--------------------------------------------------------------------------------------------
+1000        0.043               0.042               1.358               1.310
+5000        0.018               0.025               6.844               6.302
+10000       0.051               0.032               16.027              12.912
+50000       0.015               0.053               71.537              100.128
+100000      0.028               0.062               193.831             197.958
+```
+
+#### Queue (Linked-list based) Performance
+```
+QueueSize   Avg Push (us)       Avg Pop (us)        Avg Peek (us)       Mixed Ops (us)      
+--------------------------------------------------------------------------------------------
+1000        0.657               6.004               0.002               5.163
+5000        1.887               27.111              0.001               20.231
+10000       13.830              56.672              0.001               42.113
+50000       11.627              106.755             0.003               54.293
+100000      24.320              118.455             0.003               36.780
+```
+
+#### DLList Performance
+```
+ListSize    Avg AddEnd (us)     Avg RemoveEnd (us)  Avg Add0 (us)       Avg Remove0 (us)    
+--------------------------------------------------------------------------------------------
+1000        0.557               6.345               5.594               5.453
+5000        1.590               31.522              30.189              31.022
+10000       15.370              58.324              60.816              57.092
+50000       13.389              71.944              54.225              72.067
+100000      26.391              80.933              24.183              73.577
 ```
 
 ## Contributing
