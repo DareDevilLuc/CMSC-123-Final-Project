@@ -175,6 +175,17 @@ ListSize    Avg AddEnd (us)     Avg RemoveEnd (us)  Avg Add0 (us)       Avg Remo
 100000      26.391              80.933              24.183              73.577
 ```
 
+#### CHained Hash Table Performance
+```
+TableSize   Avg Insert (us)     Avg isPresent (us)  Avg Remove (us)
+------------------------------------------------------------------------
+1000        0.081               0.000               0.019
+5000        0.047               0.000               0.024
+10000       0.042               0.000               0.046
+50000       0.045               0.000               0.035
+100000      0.046               0.000               0.098
+```
+
 ## Contributing
 
 ### Contributor Guidelines
