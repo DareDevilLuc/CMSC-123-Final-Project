@@ -16,6 +16,18 @@ class SLList {
             while (size > 0) pop();
         }
 
+        bool find(T x){
+            Node<T> *currentNode = head;
+            
+            while(currentNode != nullptr){
+                if(currentNode->value == x){
+                    return true;
+                }
+                currentNode = currentNode->next;
+            }
+            return false;
+        }
+
         void push(T x){
             Node<T> *newNode = new Node<T>;
             newNode->value = x;
@@ -97,5 +109,6 @@ class SLList {
             }
             return;
         }
+
 };
 
