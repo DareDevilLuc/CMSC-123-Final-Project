@@ -14,7 +14,15 @@ class LLQueue : public Queue<T>{
         size_t n = 0;
 
     public:
-    ~LLQueue(){ while(n > 0){ pop(); }}
+    ~LLQueue(){
+        while(head != nullptr) {
+        Node<T>* tmp = head;
+        head = head->next;
+        delete tmp;
+        }
+        tail = nullptr;
+        n = 0;
+        }
 
     void push(const T& x) override{
         Node<T> *newNode = new Node<T>;

@@ -16,6 +16,18 @@ class SLList {
             while (size > 0) pop();
         }
 
+        bool find(T x){
+            Node<T> *currentNode = head;
+            
+            while(currentNode != nullptr){
+                if(currentNode->value == x){
+                    return true;
+                }
+                currentNode = currentNode->next;
+            }
+            return false;
+        }
+
         void push(T x){
             Node<T> *newNode = new Node<T>;
             newNode->value = x;
@@ -68,6 +80,33 @@ class SLList {
 
             delete toRemove;
             size--;
+            return;
+        }
+
+        void remove(T x){
+            if(size == 0){
+                return;
+            }
+
+            Node<T> *current = head;
+            if(current->value == x){
+                pop();
+                return;
+            }
+
+            while(current->next != nullptr){
+                if(current->next->value == x){
+                    Node<T> *toRemove = current->next;
+                    current->next = current->next->next;
+                    if(toRemove == tail){
+                        tail = current;
+                    }
+                    delete toRemove;
+                    size--;
+                    return;
+                }
+                current = current->next;
+            }
             return;
         }
 
