@@ -185,7 +185,26 @@ TableSize   Avg Insert (us)     Avg isPresent (us)  Avg Remove (us)
 50000       0.045               0.000               0.035
 100000      0.046               0.000               0.098
 ```
-
+#### Graph Adjacency Matrix Performance
+```
+GraphSize   Avg add (us)        Avg remove (us)     Avg hasEdge (us)    Avg outEdges (us)   Avg inEdges (us)    
+----------------------------------------------------------------------------------------------------------------
+100         0.020               0.021               0.021               6.840               6.500               
+500         0.019               0.017               0.018               7.822               7.950               
+1000        0.030               0.029               0.029               7.592               11.203              
+2000        0.014               0.014               0.014               8.172               7.499               
+3000        0.010               0.009               0.008               6.860               11.752 
+```
+#### Redblack Trees Performance
+```
+TreeSize    Avg add (us)      Avg remove (us)   Avg hasElement (us)
+------------------------------------------------------------------
+1000        0.091             0.051             0.037             
+5000        0.113             0.052             0.053             
+10000       0.125             0.097             0.075             
+50000       0.214             0.080             0.085             
+100000      0.176             0.064             0.060        
+```
 ## Contributing
 
 ### Contributor Guidelines
